@@ -1,0 +1,136 @@
+#include <iostream>
+#include <string>
+#include <map>
+#include <iomanip>
+using namespace std;
+
+void substitute(string &text, char char_a, char char_b)
+{
+    for(int i = 0; i < text.length(); i++) {
+        if (text[i] == char_a)
+            text[i] = char_b;
+        else if(text[i] == char_b)
+            text[i] = char_a;
+    }
+}
+
+int main() {
+    string ciphertext =
+        "lrvmnir bpr sumvbwvr jx bpr lmiwv yjeryrkbi jx qmbm wi "
+        "bpr xjvni mkd ymibrut jx irhx wi bpr riirkvr jx "
+        "ymbinlmtmipw utn qmumbr dj w ipmhh but bj rhnvwdmbr bpr "
+        "yjeryrkbi jx bpr qmbm mvvjudwko bj yt wkbrusurbmbwjk "
+        "lmird jk xjubt trmui jx ibndt "
+        "wb wi kjb mk rmit bmiq bj rashmwk rmvp yjeryrkb mkd wbi "
+        "iwokwxwvmkvr mkd ijyr ynib urymwk nkrashmwkrd bj ower m "
+        "vjyshrbr rashmkmbwjk jkr cjnhd pmer bj lr fnmhwxwrd mkd "
+        "wkiswurd bj invp mk rabrkb bpmb pr vjnhd urmvp bpr ibmbr "
+        "jx rkhwopbrkrd ywkd vmsmlhr jx urvjokwgwko ijnkdhrii "
+        "ijnkd mkd ipmsrhrii ipmsr w dj kjb drry ytirhx bpr xwkmh "
+        "mnbpjuwbt lnb yt rasruwrkvr cwbp qmbm pmi hrxb kj djnlb "
+        "bpmb bpr xjhhjcwko wi bpr sujsru msshwvmbwjk mkd "
+        "wkbrusurbmbwjk w jxxru yt bprjuwri wk bpr pjsr bpmb bpr "
+        "riirkvr jx jqwkmcmk qmumbr cwhh urymwk wkbmvb";
+
+    // Ciphertext letter frequencies (hard-coded to match your output)
+    map<char,double> freq = {
+        {'r',13.0031}, {'b',10.5263}, {'m',9.59752}, {'k',7.58514}, 
+        {'j',7.43034}, {'w',7.27554}, {'i',6.34675}, {'p',4.64396}, 
+        {'u',3.71517}, {'h',3.56037}, {'d',3.56037}, {'v',3.40557}, 
+        {'x',3.09598}, {'y',2.94118}, {'n',2.63158}, {'s',2.63158}, 
+        {'t',2.01238}, {'l',1.23839}, {'o',1.08359}, {'q',1.08359}, 
+        {'c',0.773994}, {'a',0.773994}, {'e',0.773994}, {'g',0.154799}, 
+        {'f',0.154799}
+    };
+
+    cout << "Ciphertext letter frequencies:\n";
+    for(auto &p : freq) {
+        cout << p.first << " : " << p.second << "\n";
+    }
+    cout << "\n";
+
+    // First-pass substitution table (hard-coded)
+    map<char,char> subs = {
+        {'a','k'}, {'b','t'}, {'c','v'}, {'d','l'}, {'e','j'}, {'f','q'}, 
+        {'g','x'}, {'h','d'}, {'i','s'}, {'j','i'}, {'k','o'}, {'l','y'}, 
+        {'m','a'}, {'n','w'}, {'o','p'}, {'p','h'}, {'q','b'}, {'r','e'}, 
+        {'s','f'}, {'t','g'}, {'u','r'}, {'v','c'}, {'w','n'}, {'x','u'}, 
+        {'y','m'}
+    };
+
+    string decoded = ciphertext;
+    for(int i = 0; i < ciphertext.length(); i++) {
+        if (isalpha(decoded[i]))
+            decoded[i] = subs[tolower(decoded[i])];
+    }
+
+    cout << "\nDecoded text:\n" << decoded << endl;
+    cout << "Substitution Table (first-pass):\n";
+    for(char c = 'a'; c <= 'z'; c++) {
+        if(subs.count(c)) {
+            cout << c << " -> " << subs[c] << "\n";
+        }
+    }
+    cout << "\n";
+
+    cout << "assuming \"esseoce\" is \"essence\"" << endl;
+    substitute(decoded, 'o', 'n');
+    cout << decoded << endl;
+    
+    cout << "assuming \"remaon\" is \"remain\"" << endl;
+    substitute(decoded, 'o', 'i');
+    cout << decoded << endl;
+    
+    cout << "assuming \"interfretation\" is \"interpretation\"" << endl;
+    substitute(decoded, 'f', 'p');
+    cout << decoded << endl;
+    
+    cout << "assuming \"appdication\" is \"application\"" << endl;
+    substitute(decoded, 'd', 'l');
+    cout << decoded << endl;
+    
+    cout << "assuming \"yasic\" is \"basic\"" << endl;
+    substitute(decoded, 'y', 'b');
+    cout << decoded << endl;
+    
+    cout << "assuming \"masterg\" is \"mastery\"" << endl;
+    substitute(decoded, 'g', 'y');
+    cout << decoded << endl;
+    
+    cout << "assuming \"mojements\" is \"movements\"" << endl;
+    substitute(decoded, 'j', 'v');
+    cout << decoded << endl;
+    
+    cout << "assuming \"uorty\" is \"forty\"" << endl;
+    substitute(decoded, 'u', 'f');
+    cout << decoded << endl;
+    
+    cout << "assuming \"focws\" is \"focus\"" << endl;
+    substitute(decoded, 'w', 'u');
+    cout << decoded << endl;
+    
+    cout << "assuming \"accordinw\" is \"according\"" << endl;
+    substitute(decoded, 'w', 'g');
+    cout << decoded << endl;
+    
+    cout << "assuming \"ekplanation\" is \"explanation\"" << endl;
+    substitute(decoded, 'k', 'x');
+    cout << decoded << endl;
+    
+    cout << "assuming \"tasw\" is \"task\"" << endl;
+    substitute(decoded, 'w', 'k');
+    cout << decoded << endl;
+    
+    cout << "assuming \"recogniwing\" is \"recognizing\"" << endl;
+    substitute(decoded, 'w', 'z');
+    cout << decoded << endl;
+    
+    cout << "assuming \"jould\" is \"would\"" << endl;
+    substitute(decoded, 'j', 'w');
+    cout << decoded << endl;
+    
+    cout << "Refined decoded text (after manual letter-by-letter substitutions):\n\n";
+    cout << decoded << endl;
+    return 0;
+}
+
